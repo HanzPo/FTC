@@ -1,0 +1,852 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+<variables>
+<variable id="hkvLq+m}h:Mmlq6*AV)k">DRIVEMODE</variable>
+<variable id=";ssYK]fZ~$VIbUJS^mU1">drivePower</variable>
+<variable id="1prKpw%_SisFC@QUQkEm">elapsedTime</variable>
+<variable id="qeZV4X(6YPAJu/[L87SI">servoTargetPosition</variable>
+</variables>
+<block type="procedures_defnoreturn" id="WtpyD@tEu+EoY=P9iY,D" deletable="false" x="-35" y="-166">
+<field name="NAME">runOpMode</field>
+<comment pinned="false" h="32" w="532">This function is executed when this Op Mode is selected from the Driver Station.</comment>
+<statement name="STACK">
+<block type="comment" id="Lc#BFtj*NTB48YL;eBl.">
+<field name="COMMENT">Put initialization blocks here.</field>
+<next>
+<block type="variables_set" id="BAclTIZwI3%1j-2NlB]C">
+<field name="VAR" id="hkvLq+m}h:Mmlq6*AV)k">DRIVEMODE</field>
+<value name="VALUE">
+<block type="logic_boolean" id="b5mVE9J`;3|m!dsX)G8A">
+<field name="BOOL">TRUE</field>
+</block>
+</value>
+<next>
+<block type="variables_set" id="AvL;6Y*rkT+mPN~2qM;,">
+<field name="VAR" id=";ssYK]fZ~$VIbUJS^mU1">drivePower</field>
+<value name="VALUE">
+<block type="math_number" id="s[G%83X!fJw]4Hx=)_HW">
+<field name="NUM">1</field>
+</block>
+</value>
+<next>
+<block type="variables_set" id="xmIb6_kw/xZ}(:BWyPI`">
+<field name="VAR" id="1prKpw%_SisFC@QUQkEm">elapsedTime</field>
+<value name="VALUE">
+<block type="elapsedTime2_create" id="p)C]mrT,E+Ka9rUAK.i)"/>
+</value>
+<next>
+<block type="variables_set" id="?i.PdNH~@;;awHI?w)3C">
+<field name="VAR" id="qeZV4X(6YPAJu/[L87SI">servoTargetPosition</field>
+<value name="VALUE">
+<block type="servo_getProperty_Number" id="cRXUv:%@sX`tU)Rckba2">
+<field name="IDENTIFIER">servoAsServo</field>
+<field name="PROP">Position</field>
+<data>{"IDENTIFIER":"servo"}</data>
+</block>
+</value>
+<next>
+<block type="dcMotor_setProperty_Direction" id="w@tm30rK?P,ll3EX/HFj">
+<field name="IDENTIFIER">left_driveAsDcMotor</field>
+<field name="PROP">Direction</field>
+<data>{"IDENTIFIER":"left_drive"}</data>
+<value name="VALUE">
+<shadow type="dcMotor_typedEnum_direction" id=":6Bq/-jYo`gzBVWJ9]_%">
+<field name="DIRECTION">REVERSE</field>
+</shadow>
+</value>
+<next>
+<block type="imu_initialize" id="nr2zA}is^6p7MU(2RlUv">
+<field name="IDENTIFIER">imuAsIMU</field>
+<comment pinned="false" h="120" w="250">Initialize the IMU with non-default settings. To use this block, plug one of the "new IMU.Parameters" blocks into the parameters socket.</comment>
+<data>{"IDENTIFIER":"imu"}</data>
+<value name="PARAMETERS">
+<block type="imuParameters_create" id="H0/PY=WWC=2IYo)kbv?{">
+<comment pinned="false" h="150" w="325">Create a Parameters object for use with an IMU in a REV Robotics Control Hub or Expansion Hub, specifying the hub's orientation on the robot via the direction that the REV Robotics logo is facing and the direction that the USB ports are facing.</comment>
+<value name="IMU_ORIENTATION_ON_ROBOT">
+<block type="revHubOrientationOnRobot_create1" id="N2*W6e/YqS%0*+WK@B$p">
+<value name="LOGO_FACING_DIRECTION">
+<shadow type="revHubOrientationOnRobot_typedEnum_logoFacingDirection" id="C{P!6$=u=3~`v{76aZ4n">
+<field name="LOGO_FACING_DIRECTION">UP</field>
+</shadow>
+</value>
+<value name="USB_FACING_DIRECTION">
+<shadow type="revHubOrientationOnRobot_typedEnum_usbFacingDirection" id="Wt}*@hxxLdyJT(iIx4]2">
+<field name="USB_FACING_DIRECTION">BACKWARD</field>
+</shadow>
+</value>
+</block>
+</value>
+</block>
+</value>
+<next>
+<block type="linearOpMode_waitForStart" id=":`$wN_ci`O;o6P0~.(+g">
+<next>
+<block type="elapsedTime2_reset" id="yrS66LzFiJJBg$T`_qb8">
+<value name="ELAPSED_TIME">
+<block type="variables_get" id="U[NH_YY.Oi;TJK,]/*fQ">
+<field name="VAR" id="1prKpw%_SisFC@QUQkEm">elapsedTime</field>
+</block>
+</value>
+<next>
+<block type="controls_if" id="}Q?5mbxSO8Di;i!__6[y">
+<value name="IF0">
+<block type="linearOpMode_opModeIsActive" id=")o%YFX/#9kvv^sgXr4~5"/>
+</value>
+<statement name="DO0">
+<block type="controls_whileUntil" id="^0Kagy/e+Ea{rbZPv2G6">
+<field name="MODE">WHILE</field>
+<value name="BOOL">
+<block type="linearOpMode_opModeIsActive" id="e)cr{!2VIET83s,JWC.="/>
+</value>
+<statement name="DO">
+<block type="comment" id="UCAhicV!9vI!OL*q}g|J">
+<field name="COMMENT">Gear shift up</field>
+<next>
+<block type="controls_if" id="D7L/b0QMi2u[wLIcLHdB">
+<value name="IF0">
+<block type="gamepad_getProperty_Boolean" id="$=;B0zwgs4;nmB}@R~a%">
+<field name="IDENTIFIER">gamepad1</field>
+<field name="PROP">RightBumper</field>
+<data>{"IDENTIFIER":"gamepad1"}</data>
+</block>
+</value>
+<statement name="DO0">
+<block type="controls_if" id="%rZha%h^O,yH*nf,:wkc">
+<value name="IF0">
+<block type="logic_compare" id=".hjVMIM=n:$d$qf{utAo">
+<field name="OP">LT</field>
+<value name="A">
+<block type="variables_get" id="^3Pbf6{dy}LQ[#[yRj[z">
+<field name="VAR" id=";ssYK]fZ~$VIbUJS^mU1">drivePower</field>
+</block>
+</value>
+<value name="B">
+<block type="math_number" id="jx1Y`ii-.Js/sW9]`/lB">
+<field name="NUM">1</field>
+</block>
+</value>
+</block>
+</value>
+<statement name="DO0">
+<block type="math_change" id="~jjxJM.%ADM[(/!!zQt7">
+<field name="VAR" id=";ssYK]fZ~$VIbUJS^mU1">drivePower</field>
+<value name="DELTA">
+<shadow type="math_number" id="I(,~D]Y03g:=J;TB_0n=">
+<field name="NUM">0.05</field>
+</shadow>
+</value>
+</block>
+</statement>
+</block>
+</statement>
+<next>
+<block type="comment" id="c+@Wc{V_`{{W~Xvz~_:u">
+<field name="COMMENT">Gear shift down</field>
+<next>
+<block type="controls_if" id="g$[A`x$5A%~z-Gj:?n7:">
+<value name="IF0">
+<block type="gamepad_getProperty_Boolean" id="VU5B(u]e1Ci9vvAx[yB,">
+<field name="IDENTIFIER">gamepad1</field>
+<field name="PROP">LeftBumper</field>
+<data>{"IDENTIFIER":"gamepad1"}</data>
+</block>
+</value>
+<statement name="DO0">
+<block type="controls_if" id="U%Qk}f[@q/331ZErVH_-">
+<value name="IF0">
+<block type="logic_compare" id="!or6vT}q}BkD0.`9OFJb">
+<field name="OP">GT</field>
+<value name="A">
+<block type="variables_get" id="Ku;2a6Y.o:}s+ZWeil;a">
+<field name="VAR" id=";ssYK]fZ~$VIbUJS^mU1">drivePower</field>
+</block>
+</value>
+<value name="B">
+<block type="math_number" id="Kq%+|;8GT~-|lnYnu{Hk">
+<field name="NUM">0</field>
+</block>
+</value>
+</block>
+</value>
+<statement name="DO0">
+<block type="math_change" id="semHO8sHH.uPT7Nwgg@9">
+<field name="VAR" id=";ssYK]fZ~$VIbUJS^mU1">drivePower</field>
+<value name="DELTA">
+<shadow type="math_number" id="Hn13/=v`XW9hvR6S%*6R">
+<field name="NUM">-0.05</field>
+</shadow>
+</value>
+</block>
+</statement>
+</block>
+</statement>
+<next>
+<block type="comment" id="$Ma:/=G,KV-Amb{cvXm%">
+<field name="COMMENT">Stop</field>
+<next>
+<block type="controls_if" id="cS^/W@ltpv]_D5kuAys;">
+<value name="IF0">
+<block type="gamepad_getProperty_Boolean" id="C^PB/{LG3^:qdA.MXU@`">
+<field name="IDENTIFIER">gamepad1</field>
+<field name="PROP">Guide</field>
+<data>{"IDENTIFIER":"gamepad1"}</data>
+</block>
+</value>
+<statement name="DO0">
+<block type="linearOpMode_requestOpModeStop" id="hdLT}%%qhNAJ9!jsXHqB"/>
+</statement>
+<next>
+<block type="comment" id="/7M9aGS=+,!_%eg((dtf">
+<field name="COMMENT">Robot drive</field>
+<next>
+<block type="dcMotor_setDualProperty_Number" id="L~kS{noVbDJqI(GY1yh@">
+<field name="PROP">Power</field>
+<field name="IDENTIFIER1">right_driveAsDcMotor</field>
+<field name="IDENTIFIER2">left_driveAsDcMotor</field>
+<data>{"IDENTIFIER1":"right_drive","IDENTIFIER2":"left_drive"}</data>
+<value name="VALUE1">
+<shadow type="math_number" id="98qNMrHa)@grNZ@VqKNM">
+<field name="NUM">1</field>
+</shadow>
+<block type="math_arithmetic" id="jep?G+bLx}yN?O7;oQ25">
+<field name="OP">MINUS</field>
+<value name="A">
+<shadow type="math_number" id="f+QavEAFu|r)}B(.uAA{">
+<field name="NUM">1</field>
+</shadow>
+<block type="math_arithmetic" id="?.*Bs]?tW(5#ddwqLx;A">
+<field name="OP">MULTIPLY</field>
+<value name="A">
+<shadow type="math_number" id="yY@PY#EMFfQJF6n,,wFy">
+<field name="NUM">1</field>
+</shadow>
+<block type="gamepad_getProperty_Number" id="+n/VhMnfV$U0*TkDzQ9T">
+<field name="IDENTIFIER">gamepad1</field>
+<field name="PROP">LeftStickY</field>
+<data>{"IDENTIFIER":"gamepad1"}</data>
+</block>
+</value>
+<value name="B">
+<shadow type="math_number">
+<field name="NUM">1</field>
+</shadow>
+<block type="variables_get" id="1O~qD#VYs`#513S!C00^">
+<field name="VAR" id=";ssYK]fZ~$VIbUJS^mU1">drivePower</field>
+</block>
+</value>
+</block>
+</value>
+<value name="B">
+<shadow type="math_number" id="Qyw^{bpa6Xk(5^^:SCT*">
+<field name="NUM">1</field>
+</shadow>
+<block type="math_arithmetic" id="SV5).^$V);lLIBI*Pm}G">
+<field name="OP">MULTIPLY</field>
+<value name="A">
+<shadow type="math_number" id="/6gRjg(~DLE(S{Z?aks@">
+<field name="NUM">1</field>
+</shadow>
+<block type="gamepad_getProperty_Number" id="cpU8(O0C}$+tx6cHv]F,">
+<field name="IDENTIFIER">gamepad1</field>
+<field name="PROP">LeftStickX</field>
+<data>{"IDENTIFIER":"gamepad1"}</data>
+</block>
+</value>
+<value name="B">
+<shadow type="math_number">
+<field name="NUM">1</field>
+</shadow>
+<block type="variables_get" id="-B-$f7(l50V[g9XMKK0/">
+<field name="VAR" id=";ssYK]fZ~$VIbUJS^mU1">drivePower</field>
+</block>
+</value>
+</block>
+</value>
+</block>
+</value>
+<value name="VALUE2">
+<shadow type="math_number" id="LW+^!J4d:w^l],l-;uY;">
+<field name="NUM">1</field>
+</shadow>
+<block type="math_arithmetic" id="D)M4kKe!3=^!JAdiHu.B">
+<field name="OP">ADD</field>
+<value name="A">
+<shadow type="math_number" id="2.c7:CdkVugj:(H]}utw">
+<field name="NUM">1</field>
+</shadow>
+<block type="math_arithmetic" id="QBF$c)SaS.GodXE.YRi2">
+<field name="OP">MULTIPLY</field>
+<value name="A">
+<shadow type="math_number" id="!Pv`-56^H,%.C!G/5q+[">
+<field name="NUM">1</field>
+</shadow>
+<block type="gamepad_getProperty_Number" id="~4CFFO;v9?e@fnhU{tKt">
+<field name="IDENTIFIER">gamepad1</field>
+<field name="PROP">LeftStickY</field>
+<data>{"IDENTIFIER":"gamepad1"}</data>
+</block>
+</value>
+<value name="B">
+<shadow type="math_number">
+<field name="NUM">1</field>
+</shadow>
+<block type="variables_get" id="S~89g9%b+Xn;!cyf;M=h">
+<field name="VAR" id=";ssYK]fZ~$VIbUJS^mU1">drivePower</field>
+</block>
+</value>
+</block>
+</value>
+<value name="B">
+<shadow type="math_number" id="WfYCU5ACisJR8:r9?.b_">
+<field name="NUM">1</field>
+</shadow>
+<block type="math_arithmetic" id="26[~p#hf.mMhjS0Na3#-">
+<field name="OP">MULTIPLY</field>
+<value name="A">
+<shadow type="math_number">
+<field name="NUM">1</field>
+</shadow>
+<block type="gamepad_getProperty_Number" id="ZMes^d_)])S6U)XG!vEX">
+<field name="IDENTIFIER">gamepad1</field>
+<field name="PROP">LeftStickX</field>
+<data>{"IDENTIFIER":"gamepad1"}</data>
+</block>
+</value>
+<value name="B">
+<shadow type="math_number">
+<field name="NUM">1</field>
+</shadow>
+<block type="variables_get" id=":jvv,L=eM[(ni+J[MZUC">
+<field name="VAR" id=";ssYK]fZ~$VIbUJS^mU1">drivePower</field>
+</block>
+</value>
+</block>
+</value>
+</block>
+</value>
+<next>
+<block type="comment" id="-4mDBiRT*Kn$V,?|/DME">
+<field name="COMMENT">Arm motor drive</field>
+<next>
+<block type="dcMotor_setProperty_Number" id="G0?AwVkDx3!1fqQw}z^?">
+<field name="IDENTIFIER">arm_motorAsDcMotor</field>
+<field name="PROP">Power</field>
+<data>{"IDENTIFIER":"arm_motor"}</data>
+<value name="VALUE">
+<shadow type="math_number" id="/G/w{nkpOoG[]a=B^Esd">
+<field name="NUM">1</field>
+</shadow>
+<block type="gamepad_getProperty_Number" id="HC*V$v%Y+M^=3PFJk8Tp">
+<field name="IDENTIFIER">gamepad1</field>
+<field name="PROP">RightStickY</field>
+<data>{"IDENTIFIER":"gamepad1"}</data>
+</block>
+</value>
+<next>
+<block type="math_change" id="otOe2`IS3Hj{YKgaVEzk">
+<field name="VAR" id="qeZV4X(6YPAJu/[L87SI">servoTargetPosition</field>
+<value name="DELTA">
+<shadow type="math_number" id=";uu.M3`)MZlR~yR:daAB">
+<field name="NUM">-0.1</field>
+</shadow>
+<block type="math_arithmetic" id=".-~Aw~3zi5u)gZf3i|i1">
+<field name="OP">MULTIPLY</field>
+<value name="A">
+<shadow type="math_number" id="os1MZGz}u;YO}1]nLyZ7">
+<field name="NUM">0.05</field>
+</shadow>
+</value>
+<value name="B">
+<shadow type="math_number" id="kwS-O@w,#rJw3a8SXUBg">
+<field name="NUM">1</field>
+</shadow>
+<block type="gamepad_getProperty_Number" id="/ytVN/xNg8%DgN7tJI}k">
+<field name="IDENTIFIER">gamepad1</field>
+<field name="PROP">RightStickX</field>
+<data>{"IDENTIFIER":"gamepad1"}</data>
+</block>
+</value>
+</block>
+</value>
+<next>
+<block type="variables_set" id="wyVzsKOi0Zx@$#%Z*3dS">
+<field name="VAR" id="qeZV4X(6YPAJu/[L87SI">servoTargetPosition</field>
+<value name="VALUE">
+<block type="math_constrain" id="S,h6Vx8yy=(?QZ?sP!5+">
+<value name="VALUE">
+<shadow type="math_number" id="~TPZT2JlDM~PkCdW!tQ4">
+<field name="NUM">50</field>
+</shadow>
+<block type="variables_get" id="-79E!/*k/kRsRu2.;:W=">
+<field name="VAR" id="qeZV4X(6YPAJu/[L87SI">servoTargetPosition</field>
+</block>
+</value>
+<value name="LOW">
+<shadow type="math_number" id="@tdwg$uA8Q`a`+7G-?-,">
+<field name="NUM">0</field>
+</shadow>
+</value>
+<value name="HIGH">
+<shadow type="math_number" id="z9*@3(c7jl%DbEp_?ur-">
+<field name="NUM">1</field>
+</shadow>
+</value>
+</block>
+</value>
+<next>
+<block type="servo_setProperty_Number" id="pHlG;x9Mt#s^4%BeUjbr">
+<field name="IDENTIFIER">servoAsServo</field>
+<field name="PROP">Position</field>
+<data>{"IDENTIFIER":"servo"}</data>
+<value name="VALUE">
+<shadow type="math_number" id="V(`6{SZEA%%Lq71jrH4_">
+<field name="NUM">1</field>
+</shadow>
+<block type="variables_get" id="E4YDDK8t0+sl?SoH2:VN">
+<field name="VAR" id="qeZV4X(6YPAJu/[L87SI">servoTargetPosition</field>
+</block>
+</value>
+<next>
+<block type="telemetry_setDisplayFormat" id="8y=wF!29|Tcm_]MsaadM">
+<value name="DISPLAY_FORMAT">
+<shadow type="telemetry_typedEnum_displayFormat" id="f?Oa1uYsSakrs!YX`^`B">
+<field name="DISPLAY_FORMAT">HTML</field>
+</shadow>
+</value>
+<next>
+<block type="telemetry_addTextData_All" id="$mS#05lu`O-|k80SvhfV">
+<value name="KEY">
+<shadow type="text" id="{UUe{|)0nC2hXx[K;(bs">
+<field name="TEXT">&lt;h1&gt;Motor Power</field>
+</shadow>
+</value>
+<value name="TEXT">
+<shadow type="text">
+<field name="TEXT">text</field>
+</shadow>
+<block type="text_join" id="d8mJVd5~ak+p~,|R~M0?">
+<mutation items="2"/>
+<value name="ADD0">
+<block type="misc_formatNumber" id="Rn*dp~B@E0.*HH/B]c@p">
+<value name="NUMBER">
+<shadow type="math_number" id="~)H~[93~$g$8[,r{d)vq">
+<field name="NUM">3.14159265</field>
+</shadow>
+<block type="math_arithmetic" id="U;,DMhN3CL8.08P6n#@Y">
+<field name="OP">MULTIPLY</field>
+<value name="A">
+<shadow type="math_number" id="mX6Z8QtM:V#bhV?=)})u">
+<field name="NUM">1</field>
+</shadow>
+<block type="variables_get" id="(FPy[jKRiVrom`|SqR_T">
+<field name="VAR" id=";ssYK]fZ~$VIbUJS^mU1">drivePower</field>
+</block>
+</value>
+<value name="B">
+<shadow type="math_number" id="Y6p/?(r*CFJ`?+/g+_t-">
+<field name="NUM">100</field>
+</shadow>
+</value>
+</block>
+</value>
+<value name="PRECISION">
+<shadow type="math_number" id="Khf1U3k{%=~q!*;]yd+y">
+<field name="NUM">0</field>
+</shadow>
+</value>
+</block>
+</value>
+<value name="ADD1">
+<block type="text" id="V_J_bQ`t:QC9}uxFGI7/">
+<field name="TEXT">%&lt;/h1&gt;</field>
+</block>
+</value>
+</block>
+</value>
+<next>
+<block type="telemetry_addNumericData_Number" id=")CaZ7IG^OBp4_IJvl@D*">
+<value name="KEY">
+<shadow type="text" id="tNGQY?M+bJ8X[c4Tbt|F">
+<field name="TEXT">Stick X</field>
+</shadow>
+</value>
+<value name="NUMBER">
+<block type="misc_roundDecimal" id="=zy0x[{*w%b1`b6BDQTK">
+<value name="NUMBER">
+<shadow type="math_number" id="Cx,tt2h_cK*^b,@D4tAX">
+<field name="NUM">3.14159265</field>
+</shadow>
+<block type="gamepad_getProperty_Number" id="+Ue,fQnw]u9Xa3JrUYz)">
+<field name="IDENTIFIER">gamepad1</field>
+<field name="PROP">LeftStickX</field>
+<data>{"IDENTIFIER":"gamepad1"}</data>
+</block>
+</value>
+<value name="PRECISION">
+<shadow type="math_number" id="pui;];f#l.|=E]K]f]v{">
+<field name="NUM">3</field>
+</shadow>
+</value>
+</block>
+</value>
+<next>
+<block type="telemetry_addNumericData_Number" id="*|!15Ad[{.C!9Vfr+^,i">
+<value name="KEY">
+<shadow type="text" id="5.)rb-T.Z^Hc,mFad:!k">
+<field name="TEXT">Stick Y</field>
+</shadow>
+</value>
+<value name="NUMBER">
+<block type="misc_roundDecimal" id=",bFKRX;cnjlj3i%/wO3Z">
+<value name="NUMBER">
+<shadow type="math_number" id="GGAyhg%w4vc170a6W?9T">
+<field name="NUM">3.14159265</field>
+</shadow>
+<block type="gamepad_getProperty_Number" id="{{L`Xbboev?AlHIqaTif">
+<field name="IDENTIFIER">gamepad1</field>
+<field name="PROP">LeftStickY</field>
+<data>{"IDENTIFIER":"gamepad1"}</data>
+</block>
+</value>
+<value name="PRECISION">
+<shadow type="math_number" id="oKU4~6mdLYS*xh7u}rO_">
+<field name="NUM">3</field>
+</shadow>
+</value>
+</block>
+</value>
+<next>
+<block type="telemetry_addNumericData_Number" id="5lOla?_{Rpn=XZPZE@a)">
+<value name="KEY">
+<shadow type="text" id="8kte1T[=t`,cmFP`vc_t">
+<field name="TEXT">Left Motor Power</field>
+</shadow>
+</value>
+<value name="NUMBER">
+<block type="misc_roundDecimal" id="=b0-b^*8xM`/IxwTzo$b">
+<value name="NUMBER">
+<shadow type="math_number" id="jHP275:Tt7sOv9_9.OTc">
+<field name="NUM">3.14159265</field>
+</shadow>
+<block type="dcMotor_getProperty_Number" id="}=1G.|[OJ*%!uyvdT[j4">
+<field name="IDENTIFIER">left_driveAsDcMotor</field>
+<field name="PROP">Power</field>
+<data>{"IDENTIFIER":"left_drive"}</data>
+</block>
+</value>
+<value name="PRECISION">
+<shadow type="math_number" id="+{0?`n,kU1*Xq%6G$R%u">
+<field name="NUM">3</field>
+</shadow>
+</value>
+</block>
+</value>
+<next>
+<block type="telemetry_addNumericData_Number" id="kkB@u]VqF=dQZqh~^JbT">
+<value name="KEY">
+<shadow type="text" id="h^/v,8/Kq.]I:s74|/-;">
+<field name="TEXT">Right Motor Power</field>
+</shadow>
+</value>
+<value name="NUMBER">
+<block type="misc_roundDecimal" id="jVhHIAM8Sr;f*L6Lez8S">
+<value name="NUMBER">
+<shadow type="math_number">
+<field name="NUM">3.14159265</field>
+</shadow>
+<block type="dcMotor_getProperty_Number" id="4w1Aq!d+,hb8C46y*_R]">
+<field name="IDENTIFIER">right_driveAsDcMotor</field>
+<field name="PROP">Power</field>
+<data>{"IDENTIFIER":"right_drive"}</data>
+</block>
+</value>
+<value name="PRECISION">
+<shadow type="math_number" id="EK;xzD!^tf~`^EVmTg1K">
+<field name="NUM">3</field>
+</shadow>
+</value>
+</block>
+</value>
+<next>
+<block type="telemetry_addNumericData_Number" id="r=r$7,I4E*!NaL_syMgI">
+<value name="KEY">
+<shadow type="text" id="SNeYXli$jA1:7=Li-,(,">
+<field name="TEXT">Servo Position</field>
+</shadow>
+</value>
+<value name="NUMBER">
+<block type="misc_roundDecimal" id=";Q02,XszZu0sI7:ID7zg">
+<value name="NUMBER">
+<shadow type="math_number" id="]d0fzOunl@8,ESQe3R,Q">
+<field name="NUM">3.14159265</field>
+</shadow>
+<block type="servo_getProperty_Number" id="U}{QpiQ}%`hvmIx;^AX+">
+<field name="IDENTIFIER">servoAsServo</field>
+<field name="PROP">Position</field>
+<data>{"IDENTIFIER":"servo"}</data>
+</block>
+</value>
+<value name="PRECISION">
+<shadow type="math_number" id="]?(U52ItJ+C,0z:IELn_">
+<field name="NUM">3</field>
+</shadow>
+</value>
+</block>
+</value>
+<next>
+<block type="telemetry_addNumericData_Number" id="T?m0$z2C~7QS-|/NFg8=">
+<value name="KEY">
+<shadow type="text" id="kDvDKy2gG)0c6UfE1oIz">
+<field name="TEXT">Pitch</field>
+</shadow>
+</value>
+<value name="NUMBER">
+<block type="misc_roundDecimal" id="yl(zOe0*h^ebTmskF?.C">
+<value name="NUMBER">
+<shadow type="math_number">
+<field name="NUM">3.14159265</field>
+</shadow>
+<block type="yawPitchRollAngles_getPropertyWithAngleUnit_Number" id="54DEB/?tQojebdV54L4z">
+<field name="PROP">Pitch</field>
+<value name="YAW_PITCH_ROLL_ANGLES">
+<block type="imu_getProperty_YawPitchRollAngles" id="Ty%PUt;82WtE`WP+bpe8">
+<field name="IDENTIFIER">imuAsIMU</field>
+<field name="PROP">RobotYawPitchRollAngles</field>
+<data>{"IDENTIFIER":"imu"}</data>
+</block>
+</value>
+<value name="ANGLE_UNIT">
+<shadow type="navigation_typedEnum_angleUnit" id="1Y49%d7,:~a5dMf?}PVF">
+<field name="ANGLE_UNIT">DEGREES</field>
+</shadow>
+</value>
+</block>
+</value>
+<value name="PRECISION">
+<shadow type="math_number" id="blWFl%[dyrwvqRyR}sTM">
+<field name="NUM">3</field>
+</shadow>
+</value>
+</block>
+</value>
+<next>
+<block type="telemetry_addNumericData_Number" id="Rq.e%SSQ}$vnN0rPwbBN">
+<value name="KEY">
+<shadow type="text" id="Rg6z!Q4X.~uf#D8(pdY9">
+<field name="TEXT">Roll</field>
+</shadow>
+</value>
+<value name="NUMBER">
+<block type="misc_roundDecimal" id="-V4OcD3`N78W#D_J_U`b">
+<value name="NUMBER">
+<shadow type="math_number">
+<field name="NUM">3.14159265</field>
+</shadow>
+<block type="yawPitchRollAngles_getPropertyWithAngleUnit_Number" id="fpnz0T~Qp,!VKzfQrox$">
+<field name="PROP">Roll</field>
+<value name="YAW_PITCH_ROLL_ANGLES">
+<block type="imu_getProperty_YawPitchRollAngles" id="ZbZiR,.PBH_aNZdgXHWH">
+<field name="IDENTIFIER">imuAsIMU</field>
+<field name="PROP">RobotYawPitchRollAngles</field>
+<data>{"IDENTIFIER":"imu"}</data>
+</block>
+</value>
+<value name="ANGLE_UNIT">
+<shadow type="navigation_typedEnum_angleUnit" id="9`+ld}4Bzo9]JOvTI(ao">
+<field name="ANGLE_UNIT">DEGREES</field>
+</shadow>
+</value>
+</block>
+</value>
+<value name="PRECISION">
+<shadow type="math_number" id="FElx4M):5XIWm3u.4QOa">
+<field name="NUM">3</field>
+</shadow>
+</value>
+</block>
+</value>
+<next>
+<block type="telemetry_addNumericData_Number" id="Fh{.7yN$L!~twnMfDzpM">
+<value name="KEY">
+<shadow type="text" id="X=4fwY=9;Dnnrtr?s42^">
+<field name="TEXT">Yaw</field>
+</shadow>
+</value>
+<value name="NUMBER">
+<block type="misc_roundDecimal" id="w7Ij+Q6}#59*``gX:]Do">
+<value name="NUMBER">
+<shadow type="math_number" id="!*hYma,(FFP(DQ?;^P?n">
+<field name="NUM">3.14159265</field>
+</shadow>
+<block type="yawPitchRollAngles_getPropertyWithAngleUnit_Number" id="Oq.oXx..Oiek+fT5m[rq">
+<field name="PROP">Yaw</field>
+<value name="YAW_PITCH_ROLL_ANGLES">
+<block type="imu_getProperty_YawPitchRollAngles" id="]0xQWpO2;wsPCaeA[#PQ">
+<field name="IDENTIFIER">imuAsIMU</field>
+<field name="PROP">RobotYawPitchRollAngles</field>
+<data>{"IDENTIFIER":"imu"}</data>
+</block>
+</value>
+<value name="ANGLE_UNIT">
+<shadow type="navigation_typedEnum_angleUnit" id="RW|Im`T~{i_BcP9k8`fS">
+<field name="ANGLE_UNIT">DEGREES</field>
+</shadow>
+</value>
+</block>
+</value>
+<value name="PRECISION">
+<shadow type="math_number" id="q1A~^No|9V}!D*d=-QFQ">
+<field name="NUM">3</field>
+</shadow>
+</value>
+</block>
+</value>
+<next>
+<block type="telemetry_addNumericData_Number" id="#mHtS;]fy[]R-n%7}j9}">
+<value name="KEY">
+<shadow type="text" id="jf#~+;t[x-nu!g_D)t0U">
+<field name="TEXT">Voltage</field>
+</shadow>
+</value>
+<value name="NUMBER">
+<block type="misc_roundDecimal" id="f3=[|blc@L|FYVYuysj_">
+<value name="NUMBER">
+<shadow type="math_number" id="y%.^I70%/tL53CG*7?Wx">
+<field name="NUM">3.14159265</field>
+</shadow>
+<block type="voltageSensor_getProperty_Number" id="7V05nSWy(+9s0(Udz5;t">
+<field name="IDENTIFIER">ControlHubAsVoltageSensor</field>
+<field name="PROP">Voltage</field>
+<data>{"IDENTIFIER":"Control Hub"}</data>
+</block>
+</value>
+<value name="PRECISION">
+<shadow type="math_number" id="n}N{/QWww~jVG#N)1FJI">
+<field name="NUM">3</field>
+</shadow>
+</value>
+</block>
+</value>
+<next>
+<block type="telemetry_addTextData_All" id="VWztk!U(y.bm+;tVOUzo">
+<value name="KEY">
+<shadow type="text" id="c35}JcG3kHzJ;T9`o8z1">
+<field name="TEXT">Elapsed Time</field>
+</shadow>
+</value>
+<value name="TEXT">
+<shadow type="text" id="!D4K~/@?4;kU`yJZ0|1w">
+<field name="TEXT">text</field>
+</shadow>
+<block type="text_join" id="=26i*fA[j7?M{O.{Kh?Z">
+<mutation items="2"/>
+<value name="ADD0">
+<block type="misc_formatNumber" id="I`b81@+yjNGsD?k=S3#t">
+<value name="NUMBER">
+<shadow type="math_number" id="lW(VzQu6rQ^r7ux`wjkA">
+<field name="NUM">3.14159265</field>
+</shadow>
+<block type="elapsedTime2_getProperty_Number" id="Ca|3X#LCmjX_m#HoV*ha">
+<field name="PROP">Seconds</field>
+<value name="ELAPSED_TIME">
+<block type="variables_get" id="nO}NrR+tC0`HtTewa2O}">
+<field name="VAR" id="1prKpw%_SisFC@QUQkEm">elapsedTime</field>
+</block>
+</value>
+</block>
+</value>
+<value name="PRECISION">
+<shadow type="math_number" id="-QP3Qz]?Pv2xUJ2x@z7u">
+<field name="NUM">0</field>
+</shadow>
+</value>
+</block>
+</value>
+<value name="ADD1">
+<block type="text" id="6rd6~7q0,q{%;xd%649q">
+<field name="TEXT">s</field>
+</block>
+</value>
+</block>
+</value>
+<next>
+<block type="telemetry_update" id="B6`6Qi#MC|g+C3RnAg,%"/>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</statement>
+</block>
+</statement>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</statement>
+</block>
+</xml>
+<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
+<Extra>
+<OpModeMeta flavor="TELEOP" group="" autoTransition="" />
+<Enabled value="true" />
+</Extra>
